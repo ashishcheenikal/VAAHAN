@@ -1,0 +1,63 @@
+<div class="cart-wrap">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 row d-flex justify-content-center">
+				{{#if response.notEmpty}}
+				<div class="table-wishlist col-12">
+					<table cellpadding="0" cellspacing="0" border="0" width="100%">
+						<thead>
+							<tr>
+								<th width="45%">PRODUCT NAME</th>
+								<th width="15%">PRICE</th>
+								<th width="15%"></th>
+								<th width="10%"></th>
+							</tr>
+						</thead>
+						<tbody>
+							{{#each wishListItems}}
+							<tr>
+								<td width="45%">
+									<div class="display-flex align-center">
+										<div class="img-product">
+											<img src="/images/product-image/{{this.product._id}}1.jpg" alt=""
+												class="mCS_img_loaded">
+										</div>
+										<div class="name-product">{{this.product.title}}
+										</div>
+									</div>
+								</td>
+								<td width="15%" class="price">Rs.{{this.product.discountPrice}}</td>
+								<td width="15%"><button class="round-black-btn small-btn"
+										onclick="todo('{{this.product._id}}')">Add to Cart</button></td>
+								<td width="10%" class="text-center"><button
+										onclick="removeWishListItem('{{this.product._id}}')" class="trash-icon"><i
+											class="far fa-trash-alt"></i></button></td>
+							</tr>
+							{{/each}}
+						</tbody>
+					</table>
+				</div>
+				{{else}}
+				<div class="card-header bg-secondary border-0 d-flex justify-content-center mt-5">
+					<h4 class="font-weight-semi-bold  ">YOUR WISHLIST IS EMPTY</h4>
+				</div>
+				{{/if}}
+			</div>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="/stylesheets/wishlist.css" type="text/css">
+<script>
+	const removeWishListItem = async (id) => {
+		try {
+			const res = await axios.post(`/removeWishListItem/${id}`, {}).then((e) => {
+				console.log(e.data.response)
+				window.location.reload()
+			})
+		} catch (err) {
+			console.error(err.data.response)
+		}
+	}
+
+
+</script>

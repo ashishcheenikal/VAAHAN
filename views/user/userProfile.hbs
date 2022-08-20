@@ -1,0 +1,203 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/stylesheets/userProfile.css">
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="profile-nav col-md-3">
+            <div class="panel">
+                <div class="user-heading round">
+                    <a href="#">
+                        <img src="/images/user-image/62deb55885238785f11d66d61.jpg" alt="">
+                    </a>
+                    <h1>{{user.name}}</h1>
+                    <p>{{user.email}}</p>
+                </div>
+
+                <ul class="nav nav-pills nav-stacked">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal"
+                        data-target="#exampleModal"><i class="fa fa-edit"></i>Edit Profile
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class=" mx-auto border p-5 mt-5" action="/editProfile" method="post"
+                                        enctype="multipart/form-data" id="editProfileForm">
+                                        <h1 class="text-center">EDIT PROFILE</h1>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="title">NAME</label>
+                                            <input type="text" id="name" class="form-control" name="name"
+                                                value="{{user.name}}" />
+                                            <input type="text" id="id" class="form-control" name="id"
+                                                value="{{user._id}}" style="display: none;" />
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="description">EMAIL</label>
+                                            <input type="email" name="email" class="form-control" id="email"
+                                                value="{{user.email}}" />
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="atlNumber">ALTERNATIVE NUMBER</label>
+                                            <input type="text" id="atlNumber" class="form-control" name="atlNumber"
+                                                value="{{user.atlNumber}}" />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="formFile" class="form-label">UPLOAD IMAGES</label>
+                                            <div class="row">
+                                                <input class="form-control col-8" type="file" id="formFile1"
+                                                    name="image1">
+                                                <img class="col-4" style="width:3rem ;" id="imageView1" src="">
+                                            </div>
+
+                                            <!-- Submit button -->
+                                            <div class="col mt-5">
+                                                <button type="submit"
+                                                    class="btn btn-primary btn-block col-4 mx-auto">Update
+                                                    Profile</button>
+                                            </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    {{!-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- Modal End -->
+
+            </ul>
+        </div>
+    </div>
+    <div class="profile-info col-md-9">
+        <div class="panel">
+            <div class="panel-body bio-graph-info">
+                <h1>Bio Graph</h1>
+                {{#if emailStatus}}
+                <h1>Email AlreadyExsist</h1>
+                {{/if}}
+                <div class="row">
+                    <div class="bio-row">
+                        <p><span>Name </span>: {{user.name}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Email </span>: {{user.email}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Mobile </span>: {{user.number}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Phone </span>: {{user.atlNumber}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div class="panel ">
+                        <div class="panel-body ">
+                            <div class="bio-chart ">
+                                <div style="display:inline;width:100px;height:100px;"></div>
+                            </div>
+                            <div class="bio-desk ">
+                                <a href="/orderManagement" class="btn btn-primary">
+                                    <h4>ORDER MANAGEMENT</h4>
+                                </a>
+                                <p>You can view your ORDER details</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="bio-chart">
+                                <div style="display:inline;width:100px;height:100px;"></div>
+                            </div>
+                            <div class="bio-desk">
+                                <a href="/addressManagement" class="btn btn-primary">
+                                    <h4>ADDRESS MANAGEMENT</h4>
+                                </a>
+                                <p>Manage your ADDRESS details</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    formFile1.onchange = evt => {
+        const [file] = formFile1.files
+        if (file) {
+            imageView1.src = URL.createObjectURL(file)
+        }
+    }
+
+
+    jQuery.validator.addMethod("lettersonly", function (value, element) {
+        return this.optional(element) || /^[a-z]+$/i.test(value);
+    }, "Letters only please");
+
+    $.validator.addMethod("noCaps", function (value, element) {
+        return this.optional(element) || !/[A-Z]/.test(value);
+    }, "email can't have upper case letters")
+
+    $(document).ready(function () {
+        $("#editProfileForm").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 20,
+                    // lettersonly: true
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    noCaps: true
+                },
+                atlNumber: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+
+            },
+            messages: {
+                name: {
+                    required: "Please enter your name",
+                    minlength: "Atleast 5 letters",
+                    maxlength: "Maximum 20 letters"
+                    // lettersonly: "Only Letters"
+                },
+                email: {
+                    required: "Please enter your EmailID",
+                    email: "Enter a valid Email ID",
+                    noCaps: "Only lower case"
+                },
+                atlNumber: {
+                    required: "Please enter a alternative number",
+                    minlength: "Minimum 10 numbers",
+                    maxlength: "Maximum 10 numbers"
+                }
+            }
+        });
+    });
+</script>

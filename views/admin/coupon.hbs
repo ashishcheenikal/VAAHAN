@@ -1,0 +1,203 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-10 mx-auto ">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title m-b-0">COUPON MANAGEMENT</h5>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal"
+                        data-target="#exampleModal"><i class="fa fa-edit"></i>ADD NEW COUPON
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class=" mx-auto border p-5 mt-5" action="/admin/newCoupon" method="post"
+                                        id="couponForm">
+                                        <h4 class="font-weight-semi-bold mb-4">ADD NEW COUPON</h4>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <label>Name</label>
+                                                <input class="form-control" type="text" name="name" id="name">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Code</label>
+                                                <input class="form-control" type="text" name="code" id="code">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Description</label>
+                                                <input class="form-control" type="text" name="description"
+                                                    id="description">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Discount</label>
+                                                <input class="form-control" type="number" name="percentage"
+                                                    id="percentage">
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit button -->
+                                        <div class="col mt-5">
+                                            <button form="couponForm" type="submit"
+                                                class="btn btn-primary btn-block col-4 mx-auto">Add
+                                                Coupon</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    {{!-- <button type="button" class="btn btn-primary">Save changes</button>
+                                    --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="dataTable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">COUPON NAME</th>
+                                <th scope="col">CODE</th>
+                                <th scope="col">DESCRIPTION</th>
+                                <th scope="col">DISCOUNT</th>
+                                <th scope="col">EDIT</th>
+                                <th scope="col">DELETE</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            {{#each coupon}}
+                            <tr>
+                                <td>{{this.name}}</td>
+                                <td>{{this.code}}</td>
+                                <td>{{this.description}}</td>
+                                <td>{{this.percentage}}</td>
+                                {{!-- <td><a class="btn" onclick="editCoupon('{{this._id}}')">EDIT</a></td> --}}
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal"
+                                        data-target="#Modal{{this._id}}"><i class="fa fa-edit"></i>EDIT
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="Modal{{this._id}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class=" mx-auto border p-5 mt-5 couponForm1"
+                                                        action="/admin/editCoupon/{{this._id}}" method="post"
+                                                        id="editForm{{this._id}}">
+                                                        <h4 class="font-weight-semi-bold mb-4">EDIT COUPON</h4>
+                                                        <div class="row">
+                                                            <div class="col-md-6 form-group">
+                                                                <label>Name</label>
+                                                                <input class="form-control" type="text" name="name"
+                                                                    id="name" value="{{this.name}}">
+                                                            </div>
+                                                            <div class="col-md-6 form-group">
+                                                                <label>Code</label>
+                                                                <input class="form-control" type="text" name="code"
+                                                                    id="code" value="{{this.code}}">
+                                                            </div>
+                                                            <div class="col-md-6 form-group">
+                                                                <label>Description</label>
+                                                                <input class="form-control" type="text"
+                                                                    name="description" id="description"
+                                                                    value="{{this.description}}">
+                                                            </div>
+                                                            <div class="col-md-6 form-group">
+                                                                <label>Discount</label>
+                                                                <input class="form-control" type="number"
+                                                                    name="percentage" id="percentage"
+                                                                    value="{{this.percentage}}">
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Submit button -->
+                                                        <div class="col mt-5">
+                                                            <button form="editForm{{this._id}}" type="submit"
+                                                                class="btn btn-primary btn-block col-4 mx-auto">EDIT
+                                                                Coupon</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    {{!-- <button type="button" class="btn btn-primary">Save
+                                                        changes</button>
+                                                    --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><a href="/admin/deleteCoupon/{{this._id}}"
+                                        onclick="return confirm('Are you sure you want to delete  {{this.name}}?')"
+                                        class="confirm btn">DELETE</a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".couponForm1").each(function () {
+        $(this).validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                code: {
+                    required: true,
+                    minlength:5,
+                },
+                description: {
+                    required: true,
+                },
+                percentage: {
+                    required: true,
+                },
+            }
+        });
+    })
+
+     $(document).each(function () {
+        $("#couponForm").validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                code: {
+                    required: true,
+                    minlength:5,
+                },
+                description: {
+                    required: true,
+                },
+                percentage: {
+                    required: true,
+                },
+            }
+        });
+    })
+</script>

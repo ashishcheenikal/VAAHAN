@@ -1,0 +1,150 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title m-b-0">CATEGORY MANAGEMENT</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="dataTable">
+                        <thead class="thead-light">
+                            <tr>
+
+                                <th scope="col">CATEGORY NAME</th>
+                                <th scope="col">EDIT</th>
+                                <th scope="col">DELETE</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            {{#each Category}}
+                            <tr>
+                                <td>{{this.categoryName}}</td>
+                                <td><a href="/admin/editCategory/{{this._id}}" class="btn">EDIT</a></td>
+                                <td><a href="/admin/deleteCategory/{{this._id}}" class="confirm btn">DELETE</a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 ">
+            <div class="border p-5">
+                <form action="/admin/addCategory" method="post" id="AddCatogory" enctype="multipart/form-data">
+                    {{#if session.CategoryExist}}
+                    <script>
+                        swal('Category Already Exists', "Try Another One", 'warning')
+                    </script>
+                    {{/if}}
+                    <!-- Category input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="categoryName">Category Name</label>
+                        <input type="text" id="categoryName" class="form-control" name="categoryName" />
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="categoryCode">Category Code</label>
+                        <input type="text" id="categoryCode" class="form-control" name="categoryCode" />
+                    </div>
+
+                    <label for="formFile" class="form-label">Upload Image</label>
+                    <div class="row">
+                        <input class="form-control col-8" type="file" id="formFile1" name="image1">
+                        <img class="col-4" style="width:3rem;" id="imageView1" src="">
+                    </div>
+
+                    <!-- Submit button -->
+                    <input class="btn btn-primary mt-2" type="submit" value="Submit">
+                </form>
+            </div>
+            <div class="border p-5 mt-5">
+                <form action="/admin/addSubCategory" method="post" id="subCatogory">
+                    <!-- Sub Category input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="SubCategoryName">Sub Category Name</label>
+                        <input type="text" id="SubCategoryName" class="form-control" name="SubCategoryName" />
+                    </div>
+                    <div>
+                        <label for="cars">Choose Category:</label>
+                        <select name="Category" id="">
+                            {{#each Category}}
+                            <option value="{{this._id}}">{{this.categoryName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <!-- Submit button -->
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    formFile1.onchange = evt => {
+        const [file] = formFile1.files
+        if (file) {
+            imageView1.src = URL.createObjectURL(file)
+        }
+    }
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+    var elems = document.getElementsByClassName('confirm');
+    var confirmIt = function (e) {
+        if (!confirm('Are you sure?')) e.preventDefault();
+    };
+    for (var i = 0, l = elems.length; i < l; i++) {
+        elems[i].addEventListener('click', confirmIt, false);
+    }
+
+    $(document).ready(function () {
+            $("#AddCatogory").validate({
+                rules: {
+                    categoryName: {
+                        required: true,
+                    },
+                    categoryCode: {
+                        required: true,
+                    },
+                    image1:{
+                        required: true,
+                    }
+                },
+                messages: {
+                    categoryName: {
+                        required: "Please enter Category name",
+                    },
+                    categoryCode: {
+                        required: "Please enter Category Code name",
+                    },
+                    image1:{
+                        required: "Please Upload An Image",
+                    }
+                }
+            });
+        });
+
+         $(document).ready(function () {
+            $("#subCatogory").validate({
+                rules: {
+                    SubCategoryName: {
+                        required: true,
+                    },
+                    Category: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    SubCategoryName: {
+                        required: "Please enter Sub-Category name",
+                      
+                    },
+                    Category: {
+                        required: "Please enter Category Code name",
+                    }
+                }
+            });
+        });
+</script>

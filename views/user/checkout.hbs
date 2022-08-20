@@ -1,0 +1,315 @@
+<!-- Checkout Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5 justify-content-around">
+        <div class="col-lg-5">
+            <div class="container-fluid">
+                <div class="col-12 row">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal"
+                        data-target="#exampleModal"><i class="fa fa-edit"></i>Ship to different Address
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class=" mx-auto border p-5 mt-5" action="/addressCheckout" method="post"
+                                        id="addressForm">
+                                        <h4 class="font-weight-semi-bold mb-4">Add New Address</h4>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <label>Name</label>
+                                                <input class="form-control" type="text" name="name" id="name">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Mobile No</label>
+                                                <input class="form-control" type="text" name="number" id="number">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Address Line 1</label>
+                                                <input class="form-control" type="text" name="address1" id="address1">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Address Line 2</label>
+                                                <input class="form-control" type="text" name="address2" id="address2">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>District</label>
+                                                <input class="form-control" type="text" name="district" id="district">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>State</label>
+                                                <input class="form-control" type="text" name="state" id="state">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Country</label>
+                                                <input class="form-control" type="text" name="country" id="country">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>PIN Code</label>
+                                                <input class="form-control" type="number" name="pinCode" id="pinCode">
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit button -->
+                                        <div class="col mt-5">
+                                            <button form="addressForm" type="submit"
+                                                class="btn btn-primary btn-block col-4 mx-auto">Add
+                                                Address</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    {{!-- <button type="button" class="btn btn-primary">Save changes</button>
+                                    --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="card-header bg-secondary border-0 rounded-1 mb-3">
+                        <h4 class="font-weight-semi-bold m-0">SELECT ADDRESS</h4>
+                    </div>
+                    {{#each address}}
+                    <div class="col-12 mb-3 p-0">
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <label style="width: 100%;">
+                                    <div class="card">
+                                        <div class="card-body shadow">
+                                            <input type="radio" name="address" value="{{this._id}}" id="">
+                                            <h5 class="card-title">{{this.name}} <br>{{this.address1}}</h5>
+                                            <p class="card-text">{{this.address2}},{{this.district}}
+                                                <br>{{this.state}},
+                                                {{this.country}} <br>PIN:{{this.pinCode}} <br>{{this.number}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-secondary mb-5">
+                <div class="card-header bg-secondary border-0">
+                    <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="font-weight-medium mb-3">Products</h5>
+                    {{#each cartProducts.cartItems}}
+                    <div class="d-flex justify-content-between">
+                        <p>{{this.product.title}}</p>
+                        <p>Rs.{{total this.quantity this.product.discountPrice}}</p>
+                    </div>
+                    {{/each}}
+                    <hr class="mt-0">
+                    <div class="d-flex justify-content-between mb-3 pt-1">
+                        <h6 class="font-weight-medium">Subtotal</h6>
+
+                        <h6 class="font-weight-medium">Rs.<span id="subtotal">{{response.total}}</span>
+                        </h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Coupon Discount</h6>
+                        <h6 class=" font-weight-medium">-Rs.<span id="shipping">{{response.discount}}</span></h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Shipping</h6>
+                        <h6 class=" font-weight-medium">Rs.<span id="shipping">{{response.shipping}}</span></h6>
+                    </div>
+                </div>
+                <div class="card-footer border-secondary bg-transparent">
+                    <div class="d-flex justify-content-between mt-2">
+                        <h5 class="font-weight-bold">Total</h5>
+
+                        <h5 class="font-weight-bold">Rs.<span id="GrandTotal"></span>{{response.grandTotal}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-secondary mb-5">
+                <div class="card-header bg-secondary border-0">
+                    <h4 class="font-weight-semi-bold m-0">Payment</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div>
+                            <input type="radio" name="payment" id="UPI" value="UPI">
+                            <label for="paypal">UPI</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input type="radio" name="payment" id="COD" value="COD">
+                            <label for="directcheck">Cash-On-Delivery</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div>
+                            <input type="radio" name="payment" id="netBanking" value="netBanking">
+                            <label for="banktransfer">Net Banking</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-secondary bg-transparent">
+                    <button onclick="placeOrder()"
+                        class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place
+                        Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Checkout End -->
+<script>
+
+    const razorPayment = (data) => {
+        var options = {
+            "key": "rzp_test_Pe7VbD2VT84DN7", // Enter the Key ID generated from the Dashboard
+            "amount": data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Acme Corp",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response) {
+                verifyPayment(response, data);
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+             paymentFailed(response, data);
+        });
+        rzp1.open();
+
+    }
+
+    const placeOrder = async () => {
+        let paymentDetails = $('input[type="radio"][name="payment"]:checked').val()
+        let deliveryDetails = $('input[type="radio"][name="address"]:checked').val()
+        try {
+            const res = await axios.post('/placeOrder', {
+                paymentDetails: paymentDetails,
+                deliveryDetails: deliveryDetails
+            }).then((e) => {
+                if (paymentDetails === "COD") {
+                    location.href = `/orderSuccess/${e.data.order._id}`;
+                    
+                } else {
+                    razorPayment(e.data.data)
+                }
+
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const verifyPayment = async (payment, order) => {
+        try {
+            const res = await axios.post('/verifyPayment', {
+                payment,
+                order
+            }).then((e) => {
+                if(e.data.status){
+               location.href = `/orderSuccess/${order.receipt}`;
+                }else{
+                    alert('!!!');
+                }
+            })
+        } catch {
+
+        }
+    }
+
+    const paymentFailed=(response,data)=>{
+        swal('paymentFailed','You payment failed Try again','error')
+    }
+
+    jQuery.validator.addMethod("lettersonly", function (value, element) {
+        return this.optional(element) || /^[a-z]+$/i.test(value);
+    }, "Letters only please");
+
+    $.validator.addMethod("noCaps", function (value, element) {
+        return this.optional(element) || !/[A-Z]/.test(value);
+    }, "email can't have upper case letters")
+
+    $(document).ready(function () {
+        $("#addressForm").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 5,
+                    // lettersonly: true
+                },
+                number:{
+                    required: true,
+                    minlength:10,
+                    maxlength:10
+                },
+                address1: {
+                    required: true,
+                },
+                address2: {
+                    required: true,
+                },
+                district: {
+                    required: true,
+                },
+                state: {
+                    required: true,
+                },
+                country: {
+                    required: true,
+                },
+                pinCode: {
+                    required: true,
+                    minlength:6,
+                    maxlength:6
+                },
+
+            },
+            messages: {
+                name: {
+                    required: "Please enter your name",
+                    minlength: "Atleast 5 letters",
+                    // lettersonly: "Only Letters"
+                },
+                number: {
+                    required: "This field is mandatory",
+                    minlength: "Minimum 10 numbers",
+                    maxlength: "Maximum 10 numbers"
+                },
+                pinCode: {
+                    required: "This field is mandatory",
+                    minlength: "Minimum 6 numbers",
+                    maxlength: "Maximum 6 numbers"
+                }
+            }
+        });
+    });
+</script>

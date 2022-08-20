@@ -1,0 +1,177 @@
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <div class="col-1">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#exampleModal"><i
+                    class="fa fa-edit"></i>Add New Address
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class=" mx-auto border p-5 mt-5" action="/address" method="post"
+                                enctype="multipart/form-data" id="addressForm">
+                                <h4 class="font-weight-semi-bold mb-4">Add New Address</h4>
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label>Name</label>
+                                        <input class="form-control" type="text" name="name" id="name">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Mobile No</label>
+                                        <input class="form-control" type="text" name="number" id="number">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Address Line 1</label>
+                                        <input class="form-control" type="text" name="address1" id="address1">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Address Line 2</label>
+                                        <input class="form-control" type="text" name="address2" id="address2">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>District</label>
+                                        <input class="form-control" type="text" name="district" id="district">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>State</label>
+                                        <input class="form-control" type="text" name="state" id="state">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Country</label>
+                                        <input class="form-control" type="text" name="country" id="country">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>PIN Code</label>
+                                        <input class="form-control" type="number" name="pinCode" id="pinCode">
+                                    </div>
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="col mt-5">
+                                    <button type="submit" class="btn btn-primary btn-block col-4 mx-auto">Add
+                                        Address</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            {{!-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 row">
+                {{#each address}}
+            <div class="col-6">
+                <div class="panel-body bio-graph-info border shadow p-2">
+                    <h4>Address 1</h4>
+                    <div class="row">
+                        <div class="col">
+                            <div class="bio-row">
+                                <p><span>Name </span>: {{this.name}}</p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>Mobile No</span>: {{this.number}}</p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>Address Line 1</span>: {{this.address1}}</p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>Address Line 2</span>: {{this.address2}}</p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>District</span>: {{this.district}}</p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>State</span>: {{this.state}}</p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>Country</span>: {{this.country}}</p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>PIN Code</span>: {{this.pinCode}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                {{/each}}
+        </div>
+    </div>
+</div>
+
+<script>
+
+jQuery.validator.addMethod("lettersonly", function (value, element) {
+        return this.optional(element) || /^[a-z]+$/i.test(value);
+    }, "Letters only please");
+
+    $.validator.addMethod("noCaps", function (value, element) {
+        return this.optional(element) || !/[A-Z]/.test(value);
+    }, "email can't have upper case letters")
+
+    $(document).ready(function () {
+        $("#addressForm").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 5,
+                    // lettersonly: true
+                },
+                number:{
+                    required: true,
+                    minlength:10,
+                    maxlength:10
+                },
+                address1: {
+                    required: true,
+                },
+                address2: {
+                    required: true,
+                },
+                district: {
+                    required: true,
+                },
+                state: {
+                    required: true,
+                },
+                country: {
+                    required: true,
+                },
+                pinCode: {
+                    required: true,
+                    minlength:6,
+                    maxlength:6
+                },
+
+            },
+            messages: {
+                name: {
+                    required: "Please enter your name",
+                    minlength: "Atleast 5 letters",
+                    // lettersonly: "Only Letters"
+                },
+                number: {
+                    required: "This field is mandatory",
+                    minlength: "Minimum 10 numbers",
+                    maxlength: "Maximum 10 numbers"
+                },
+                pinCode: {
+                    required: "This field is mandatory",
+                    minlength: "Minimum 6 numbers",
+                    maxlength: "Maximum 6 numbers"
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,227 @@
+<style type="text/css">
+    .drift-demo-trigger {
+        width: 40%;
+    }
+
+
+    @media (max-width: 900px) {
+
+
+        .detail,
+        .drift-demo-trigger {
+            float: none;
+        }
+
+        .drift-demo-trigger {
+            max-width: 100%;
+            width: auto;
+            margin: 0 auto;
+        }
+
+        .detail {
+            margin: 0;
+            width: auto;
+        }
+
+        .responsive-hint {
+            display: none;
+        }
+
+        .drift-bounding-box {
+            display: none;
+        }
+    }
+</style>
+
+<!-- Shop Detail Start -->
+<div class="container-fluid py-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-5 pb-5">
+            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner border"
+                    style="height:28rem ;display: flex;align-items:center ;object-fit: contain; ">
+                    <div class="carousel-item active">
+                        <img class="w-100 h-100 drift-demo-trigger" src="/images/product-image/{{product._id}}1.jpg"
+                            data-zoom="/images/product-image/{{product._id}}1.jpg" alt="Image">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="w-100 h-100 drift-demo-trigger" src="/images/product-image/{{product._id}}2.jpg"
+                            data-zoom="/images/product-image/{{product._id}}2.jpg" alt="Image">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="w-100 h-100 drift-demo-trigger" src="/images/product-image/{{product._id}}3.jpg"
+                            data-zoom="/images/product-image/{{product._id}}3.jpg" alt="Image">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                    <i class="fa fa-2x fa-angle-left text-dark"></i>
+                </a>
+                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                    <i class="fa fa-2x fa-angle-right text-dark"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-7 pb-5">
+            <div class="detail">
+                <div class="d-flex">
+                    <div>
+                        <h3 class="font-weight-semi-bold">{{product.title}}</h3>
+                    </div>
+                    <div class="ml-auto">
+                        <button onclick="addToWishList('{{product._id}}')" class="btn border">
+                            <i class="fas fa-heart" id="wishListIcon" style="color:darkgray"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex mb-3">
+                    <div class="text-primary mr-2">
+                        <small class="fas fa-star"></small>
+                        <small class="fas fa-star"></small>
+                        <small class="fas fa-star"></small>
+                        <small class="fas fa-star-half-alt"></small>
+                        <small class="far fa-star"></small>
+                    </div>
+                    <small class="pt-1">(50 Reviews)</small>
+                </div>
+                <h3 class="font-weight-semi-bold mb-4">Rs.{{product.discountPrice}}</h3>
+                <p class="mb-4">{{product.description}}</p>
+                <h5>{{product.brand}}</h5>
+                <h3 class="font-weight-semi-bold mb-4">Rs.{{product.discountPrice}}</h3>
+                <p class="mb-4">{{product.aboutBrand}}</p>
+                <div class="d-flex align-items-center mb-4 pt-2">
+                    <button class="btn btn-primary px-3" onclick="addToCart('{{product._id}}')"><i
+                            class="fa fa-shopping-cart mr-1"></i> Add To
+                        Cart</button>
+                </div>
+                <div class="d-flex pt-2">
+                    <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
+                    <div class="d-inline-flex">
+                        <a class="text-dark px-2" href="">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a class="text-dark px-2" href="">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-dark px-2" href="">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a class="text-dark px-2" href="">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Shop Detail End -->
+
+
+    <!-- Products Start -->
+    <div class="container-fluid py-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
+        </div>
+
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="owl-carousel related-carousel">
+                    {{#each products}}
+                    <div class="card product-item border-0">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="/images/product-image/{{this._id}}1.jpg" alt=""
+                                style="height: 20rem;">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">{{this.title}}</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>Rs.{{this.discountPrice}}</h6>
+                                <h6 class="text-muted ml-2"><del>Rs.{{this.discountPrice}}</del></h6>
+                            </div>
+                        </div>
+                        <input type="text" style="display:none ;" id="product-id" value="{{this._id}}">
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                                Detail</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Products End -->
+    <script src="/js/Drift.js"></script>
+    <script>
+
+
+        let driftImgs = document.querySelectorAll('.drift-demo-trigger');
+        let pane = document.querySelector('.detail');
+        for (let i = 0; i < driftImgs.length; i++) {
+            new Drift(driftImgs[i], {
+                paneContainer: pane,
+                inlinePane: false
+            })
+        }
+
+        const addToCart = async (id) => {
+            try {
+                const res = await axios.post(`/addToCart/${id}`, {
+                }).then((e) => {
+                    console.log(e)
+                    if (e.data.response.duplicate) {
+                        swal("Item Already In The Cart", "Go For It", "info");
+                    } else {
+                        let count = document.getElementById('cart-count').innerHTML
+                        count = parseInt(count) + 1
+                        document.getElementById('cart-count').innerHTML = count;
+                        swal("Good Selection!", "Item Added To The Cart", "success");
+                    }
+                })
+                console.log(res)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        const addToWishList = async (id) => {
+            product = id
+            const res = await axios.post(`/addToWishList/${id}`, {
+            }).then((e) => {
+                if (e.data.response.cart) {
+                    swal("Oops", "Item already added to the cart", "warning")
+                } else {
+                    if (e.data.response.added) {
+                        let count = document.getElementById('wishlist-count').innerHTML
+                        count = parseInt(count) + 1
+                        document.getElementById('wishlist-count').innerHTML = count
+                        document.getElementById('wishListIcon').style.color = '#FFC0CB'
+                    } else {
+                        let count = document.getElementById('wishlist-count').innerHTML
+                        count = parseInt(count) - 1
+                        document.getElementById('wishlist-count').innerHTML = count
+                        document.getElementById('wishListIcon').style.color = '#a9a9a9'
+                    }
+                }
+
+            })
+        }
+        let product = document.getElementById('product-id').value
+        document.product = product
+        document.addEventListener('DOMContentLoaded', myWishlist, false)
+        async function myWishlist(evt) {
+
+            const res = await axios.get(`/checkWishlist/${evt.currentTarget.product}`, {}).then((e) => {
+                console.log(e.data.wishList)
+                if (e.data.wishList) {
+                    document.getElementById('wishListIcon').style.color = '#FFC0CB'
+                } else {
+                    document.getElementById('wishListIcon').style.color = '#a9a9a9'
+                }
+            })
+        }
+
+    </script>

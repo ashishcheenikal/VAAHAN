@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Express css -->
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <meta charset="utf-8">
+    <title>VaaHan</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="/img/VHfevicon.jpg" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- Jquery Core CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <!-- Jquery Validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.js"></script>
+
+    <!-- Axios CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!--Jquery CDN Data-table -->
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+    <!--Razorpay -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!--Sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!--Easy Invoice -->
+    <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+
+    <!-- JavaScript Libraries -->
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/lib/easing/easing.min.js"></script>
+
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+</head>
+
+<body>
+    {{#if userDisplay}}
+    {{> user-header}}
+    {{else if errorDisplay}}
+    {{>error-header}}
+    {{else}}
+    {{>admin-header}}
+    {{/if}}
+    {{{body}}}
+    {{#if userDisplay}}
+    {{>user-footer}}
+    {{else}}
+    {{>admin-footer}}
+    {{/if}}
+
+
+
+    <!-- Contact Javascript File -->
+    <script src="/mail/jqBootstrapValidation.min.js"></script>
+    <script src="/mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js"></script>
+    <script>
+        const addToCart = async (id) => {
+            try {
+                const res = await axios.post(`/addToCart/${id}`, {
+                }).then((e) => {
+                    console.log(e)
+                    if (!e.data.response.inc) {
+                        let count = document.getElementById('cart-count').innerHTML
+                        count = parseInt(count) + 1
+                        document.getElementById('cart-count').innerHTML = count;
+                        swal("Good Selection!", "Item Added To The Cart", "success");
+                    }
+                })
+                console.log(res)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        const deleteW = () => {
+            window.location.reload()
+        }
+        const todo = async (id) => {
+            await addToCart(id)
+            deleteW()
+        }
+    </script>
+    <style>
+        .error {
+            color: crimson;
+        }
+    </style>
+
+</body>
+
+</html>

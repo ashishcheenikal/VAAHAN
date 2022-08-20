@@ -1,0 +1,185 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 mx-auto" id="newProduct">
+            <form class=" mx-auto border p-5 mt-5" action="/admin/editProduct" method="post" enctype="multipart/form-data" id="editProductForm">
+                <h1 class="text-center">EDIT PRODUCT</h1>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="title">TITLE</label>
+                    <input type="text" id="title" class="form-control" name="title" value="{{this.product.title}}"/>
+                </div>
+                 <input class="invisible" name="id" value="{{this.product._id}}">
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="description">DESCRIPTION</label>
+                    <textarea name="description" class="form-control" id="description" cols="10" rows="3" >{{this.product.description}}</textarea>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="brand">BRAND</label>
+                    <input type="text" id="brand" class="form-control" name="brand" value="{{this.product.brand}}"/>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="aboutBrand">ABOUT BRAND</label>
+                    <textarea name="aboutBrand" class="form-control" id="aboutBrand" cols="10" rows="3" >{{this.product.aboutBrand}}</textarea>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="category">CATEGORY</label>
+                    <select class="form-control" id="category" oninput="run()" name="categoryName" value="{{this.product.categoryName}}">
+                        <option>Choose</option>
+                        {{#each category}}
+                        <option value="{{this._id}}">{{this.categoryName}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="subCategory">SUB CATEGORY</label>
+                    <select id="subCategory" class="form-control" name="SubCategoryName" value="{{this.product.SubCategoryName}}">
+                    </select>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label for="partNo">PART NUMBER</label>
+                    <input id="partNo" class="form-control" name="partNo" value="{{this.product.partNo}}"/>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="quantity">QUANTITY</label>
+                    <input type="number" id="quantity" class="form-control" name="quantity" value="{{this.product.quantity}}"/>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="price">PRICE</label>
+                    <input type="number" id="price" class="form-control" name="price" value="{{this.product.price}}"/>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="discountPrice">DISCOUNTED PRICE</label>
+                    <input type="number" id="discountPrice" class="form-control" name="discountPrice" value="{{this.product.discountPrice}}" />
+                </div>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">UPLOAD IMAGES</label>
+                    <div class="row">
+                        <input class="form-control col-8" type="file" id="formFile1" name="image1">
+                        <img class="col-4" style="width:3rem ;" id="imageView1" src="/images/product-image/{{this.product._id}}1.jpg">
+                    </div>
+                    <div class="row">
+                        <input class="form-control col-8" type="file" id="formFile2" name="image2">
+                        <img class="col-4" style="width:3rem ;" id="imageView2" src="/images/product-image/{{this.product._id}}2.jpg">
+                    </div>
+                    <div class="row">
+                        <input class="form-control col-8" type="file" id="formFile3" name="image3">
+                        <img class="col-4" style="width:3rem ;" id="imageView3" src="/images/product-image/{{this.product._id}}3.jpg">
+                    </div>
+                    <!-- Submit button -->
+                    <div class="col mt-5">
+                    <button type="submit" class="btn btn-primary btn-block col-4 mx-auto">Add product</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
+
+<script>
+
+  formFile1.onchange = evt => {
+    const [file] = formFile1.files
+    if (file) {
+      imageView1.src = URL.createObjectURL(file)
+    }
+  }
+  formFile2.onchange = evt => {
+    const [file] = formFile2.files
+    if (file) {
+      imageView2.src = URL.createObjectURL(file)
+    }
+  }
+  formFile3.onchange = evt => {
+    const [file] = formFile3.files
+    if (file) {
+      imageView3.src = URL.createObjectURL(file)
+    }
+  }
+
+  function run() {
+    let alreadyExistingValue=document.getElementById('subCategory').value
+    if(alreadyExistingValue){
+      document.getElementById('subCategory').value=null;
+      document.getElementById('subCategory').innerHTML=null;
+    }
+    let id = document.getElementById('category').value
+    // Creating Our XMLHttpRequest object 
+    var xhr = new XMLHttpRequest();
+
+    // Making our connection  
+    var url = '/admin/showSubCategory/' + id;
+    xhr.open("GET", url, true);
+
+    // function execute after request is successful 
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let data = JSON.parse(this.responseText)
+        console.log(data)
+        $.each(data, function () {
+            console.log(this)
+          $.each(this, function () {
+            console.log(this.subCategory)
+            document.getElementById('subCategory').innerHTML+=`<option value="${this._id}" >${this.SubCategoryName}</option>`
+          });
+        });
+      }
+    }
+    // Sending our request 
+    xhr.send();
+  }
+
+  $(document).ready(function () {
+        $("#editProductForm").validate({
+            rules: {
+                title: {
+                    required: true,
+                },
+                description: {
+                    required: true,
+                },
+                brand: {
+                    required: true,
+                },
+                aboutBrand: {
+                    required: true,
+                },
+                categoryName: {
+                    required: true,
+                },
+                SubCategoryName: {
+                    required: true,
+                },
+                partNo: {
+                    required: true,
+                },
+                quantity: {
+                    required: true,
+                },
+                price: {
+                    required: true,
+                },
+                discountPrice: {
+                    required: true,
+                },
+                image1: {
+                    required: true,
+                },
+                image2: {
+                    required: true,
+                },
+                image3: {
+                    required: true,
+                }
+            }
+        });
+    });
+
+
+</script>
