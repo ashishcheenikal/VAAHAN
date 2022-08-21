@@ -376,14 +376,14 @@ router.get("/wishlist", verified, (req, res) => {
   userHelper.wishListProducts(req.session.user._id).then((response) => {
     if (response.notEmpty) {
       let wishListItems = response.products.wishListItems;
-      res.render("user/wishlist", {
+      res.render("user/wishList", {
         userDisplay: true,
         session,
         response,
         wishListItems,
       });
     } else {
-      res.render("user/wishlist", { userDisplay: true, session, response });
+      res.render("user/wishList", { userDisplay: true, session, response });
     }
   });
 });
