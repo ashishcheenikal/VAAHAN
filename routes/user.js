@@ -61,7 +61,7 @@ router.get("/register", function (req, res, next) {
 router.get("/login", function (req, res, next) {
   let userlog = req.session;
   console.log(userlog.wrongpassword);
-  res.render("user/Login", { userlog, userDisplay: true,session:req.session });
+  res.render("user/login", { userlog, userDisplay: true,session:req.session });
 });
 
 router.post("/usersignup", function (req, res, next) {
