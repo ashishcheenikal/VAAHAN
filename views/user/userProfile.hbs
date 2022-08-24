@@ -86,7 +86,9 @@
             <div class="panel-body bio-graph-info">
                 <h1>Bio Graph</h1>
                 {{#if emailStatus}}
-                <h1>Email AlreadyExsist</h1>
+                <script>
+                swal('Email Already Exists','Go for Another One', 'warning')
+                </script>
                 {{/if}}
                 <div class="row">
                     <div class="bio-row">

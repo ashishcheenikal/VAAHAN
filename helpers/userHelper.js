@@ -254,24 +254,26 @@ const Helper = {
   editProfile: (data, userId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let emailCheck = await userModel.findOne({ email: data.email });
-        let status = {
-          alreadyExists: false,
-        };
-        if (emailCheck) {
-          status.alreadyExists = true;
-          resolve(data);
-        } else {
-          userModel
-            .findByIdAndUpdate(userId, {
-              name: data.name,
-              email: data.email,
-              atlNumber: data.atlNumber,
-            })
-            .then((data) => {
-              resolve(data);
-            });
-        }
+        let response = {};
+        let user1 = await userModel.findById(userId);
+      let user2 = await userModel.findOne({ email: data.email });
+      if (user2.email == user1.email || !user2) {
+        userModel
+          .findByIdAndUpdate(userId, {
+            name: data.name,
+            email: data.email,
+            atlNumber: data.atlNumber,
+          })
+          .then((data) => {
+            response.exist = false;
+            response.data = data;
+            resolve(response);
+          });
+      }else{
+        response.emailexist = true;
+        resolve(response);
+      }
+        
       } catch (err) {
         reject(err);
       }

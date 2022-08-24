@@ -302,17 +302,21 @@ router.get("/userProfile", verified, (req, res) => {
 });
 
 router.post("/editProfile", (req, res) => {
-  userHelper.editProfile(req.body, req.body.id).then((user) => {
-    req.session.emailStatus = true;
-    res.redirect("/userProfile");
-    req.files.image1.mv(
-      "public/images/user-image/" + user._id + "1.jpg",
-      (err, done) => {
-        if (err) {
-          console.log(err);
+  userHelper.editProfile(req.body, req.body.id).then((response) => {
+    if(response.emailexist){
+      req.session.emailStatus = true;
+      res.redirect("/userProfile");
+    }else{
+      req.files.image1.mv(
+        "public/images/user-image/" + response.data._id + "1.jpg",
+        (err, done) => {
+          if (err) {
+            console.log(err);
+          }
         }
-      }
-    );
+      );
+      res.redirect("/userProfile");
+    }
   });
 });
 
