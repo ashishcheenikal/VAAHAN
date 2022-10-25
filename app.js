@@ -15,8 +15,7 @@ var adminRouter = require("./routes/admin");
 // var env = require('dotenv').config({path: __dirname + '/.env'})
 // //console.log(typeof(process.env.serviceID));
 
-
-connection.connect()
+connection.connect();
 var app = express();
 
 const store = new MongodbSession({
@@ -49,10 +48,10 @@ app.engine(
       json: function (context) {
         return JSON.stringify(context);
       },
-      date: function(date){
-        let data = date+""
+      date: function (date) {
+        let data = date + "";
         return data.slice(0, 16);
-      }
+      },
     },
   })
 );
@@ -98,7 +97,7 @@ app.use("/", userRouter);
 app.use("/admin", adminRouter);
 
 // catch 404 and forward to error handler
-app.use(function ( req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
@@ -110,8 +109,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error",{err,errorDisplay:true});
+  res.render("error", { err, errorDisplay: true });
 });
 
 module.exports = app;
-
